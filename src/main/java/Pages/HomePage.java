@@ -13,6 +13,7 @@ public class HomePage extends TestBase {
     private String registerBTN = "//a[normalize-space()='Register']";
     private String catHover = "//ul[@class=\"top-menu notmobile\"]/li/a";
     private String desktopsCategory = "(//a[normalize-space()='Desktops'])[1]";
+    private String shoppingCartIcon = "//span[@class='cart-label']";
 
     public HomePage(Page page) {
         this.page = page;
@@ -36,6 +37,10 @@ public class HomePage extends TestBase {
     }
     public HomePage getDesktops(){
         page.click(desktopsCategory);
+        return this;
+    }
+    public HomePage clickOnShoppingCart(){
+        page.click(shoppingCartIcon);
         return this;
     }
 }
