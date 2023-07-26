@@ -1,6 +1,7 @@
 package Pages;
 
 import Base.TestBase;
+import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 
