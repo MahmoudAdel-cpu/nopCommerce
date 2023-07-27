@@ -7,7 +7,6 @@
     <list default="true" id="c9858551-e5ec-4adb-9016-0335670ac59a" name="Changes" comment="beeb">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Pages/CheckoutPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/CheckoutPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Pages/ShoppingCartPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/ShoppingCartPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/Config/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Config/config.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/TestPages/PurchaceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestPages/PurchaceTest.java" afterDir="false" />
     </list>

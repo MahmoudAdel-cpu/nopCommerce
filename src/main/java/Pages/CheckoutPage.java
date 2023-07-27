@@ -2,9 +2,13 @@ package Pages;
 
 import Base.TestBase;
 import com.microsoft.playwright.ElementHandle;
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.SelectOption;
 import io.qameta.allure.Step;
+import org.testng.Assert;
+
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class CheckoutPage extends TestBase {
 
@@ -26,6 +30,8 @@ public class CheckoutPage extends TestBase {
     private String expYearDate = "//select[@id='ExpireYear']";
     private String cardCode = "//input[@id='CardCode']";
     private String savePaymentMethodBTN = "//button[@class='button-1 payment-info-next-step-button']";
+    private String confirmOrderBTN = "//button[@onclick='ConfirmOrder.save()']";
+    private String confirmationMSG = "//div[@class='section order-completed']//div[@class='title']";
     public CheckoutPage (Page page){
         this.page = page;
     }
@@ -58,6 +64,7 @@ public class CheckoutPage extends TestBase {
         expiryYear.selectOption(new SelectOption().setLabel(year));
         page.fill(cardCode,code);
         page.click(savePaymentMethodBTN);
+        System.out.println("Payment method is Credit Card");
         return this;
     }
     @Step
@@ -67,6 +74,7 @@ public class CheckoutPage extends TestBase {
         if (page.locator(moneyOrderMethod).isChecked()){
             String savePaymentMethodBTN = "//button[@class='button-1 payment-method-next-step-button']";
             page.click(savePaymentMethodBTN);
+            System.out.println("Payment method is Money Order");
         }
         else {
             creditCardPaymentSceanrio(prop.getProperty("cardHolderName"),
@@ -75,6 +83,15 @@ public class CheckoutPage extends TestBase {
                     prop.getProperty("expYear"),
                     prop.getProperty("cardCode"));
         }
+        return this;
+    }
+    public CheckoutPage confirmOrder(){
+        page.click(confirmOrderBTN);
+        return this;
+    }
+    public CheckoutPage getConfirmationMSG(){
+        assertThat(page.locator(confirmationMSG)).containsText("successfully processed!");
+        System.out.println(page.locator(confirmationMSG).innerText());
         return this;
     }
 }
