@@ -57,6 +57,8 @@ public class PurchaceTest extends TestBase {
                 (prop.getProperty("city")),
                 (prop.getProperty("address")),
                 (prop.getProperty("zipCode")),
-                (prop.getProperty("phone")));
+                (prop.getProperty("phone"))).
+                SelectShippingMethod().
+                SelectPaymentMethod();
     }
 }

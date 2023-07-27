@@ -4,8 +4,6 @@ import Base.TestBase;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 
-import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
 public class ShoppingCartPage extends TestBase {
 
     Page page;

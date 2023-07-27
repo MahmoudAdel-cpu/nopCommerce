@@ -5,38 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9858551-e5ec-4adb-9016-0335670ac59a" name="Changes" comment="beeb">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/02f2285c-2232-4862-882d-7993d4255ee4-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/395e94ec-770b-46b6-9c11-5011719ba20b-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/4be58c81-ed40-42d3-87e5-acb2f50c1cfb-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/5c3aa1db-96ef-4ac3-84b7-7f8bcb5112a9-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/74b86893-966f-4dd4-a638-7955e4840224-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/77f3af2a-d456-4042-820b-d4ce64afa7f1-result.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/7ed4ca20-b663-469b-9068-d8a52ce23ef1-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/8443669f-eb13-4659-b5a8-cddbdcba054b-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/86fbf7f9-fd56-4978-bb22-2d71ebf8a071-result.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/8fbf602a-425e-4f8f-b549-1e7101e641b7-result.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/9696a731-6a60-422d-9ff6-83b76c8639af-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/9f24a50b-b47c-4241-a744-9d812994a365-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/a40682c0-ea35-47e9-b2a4-4d545d931202-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/a733061c-3e5e-4b5a-b4d0-b570b56b2931-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/b4a02073-0f00-4a0d-811f-5b5b56459205-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/b7b87937-f117-4842-8af6-27ee5e2e45bd-result.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/ba6f1db3-1418-4cfa-a3fe-3d4552586d9e-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/bdd54c0b-2f66-4cd6-8f80-8372851a9ed5-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/c1bdc125-3a7d-45a4-8b92-2b50fcbeda1f-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/c74d0608-803f-4b7c-b5f1-549bd492b2ed-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/cea15b13-d250-4b15-ae3a-9d98dd8aeaec-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/eb63b4ed-c804-4e2e-a237-ce886252c100-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/fd884f5a-ddab-488b-99ba-d534089b4ed5-result.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/ffbbd13f-a0f4-43d2-bc1f-a3d51dd82190-result.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/PurchaceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Pages/CheckoutPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/CheckoutPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Pages/HomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/HomePage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Pages/ShoppingCartPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/ShoppingCartPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/Config/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Config/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/TestPages/ShoppingCartPageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestPages/ShoppingCartPageTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TestPages/PurchaceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestPages/PurchaceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +55,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main"
+    "git-widget-placeholder": "main",
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
   <component name="RunManager" selected="TestNG.PurchaceTest">
