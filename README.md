@@ -28,26 +28,20 @@ Automation allows us to efficiently validate the functionality of nopCommerce wi
 
 6. **Test Parallelization:** Enable test parallelization to reduce execution time and increase test suite efficiency.
 
-## Screenshots
+### Screenshots
 
-Here are some screenshots of the project to give users a visual overview of its capabilities:
+1. **Allure Overview**
+  ![allure](https://github.com/MahmoudAdel-cpu/nopCommerce/assets/132147527/f9c46111-370e-46a7-b167-179c2df26bd8)
 
-1. **Screenshot 1 - Home Page**
-   ![Home Page](https://example.com/path/to/screenshot_home.png)
 
-2. **Screenshot 2 - Product Listing**
-   ![Product Listing][(https://example.com/path/to/screenshot_listing.png](https://github.com/MahmoudAdel-cpu/nopCommerce/blob/main/screenshots/Trace.png))
 
-3. **Screenshot 3 - Checkout Process**
-   ![Checkout Process](https://example.com/path/to/screenshot_checkout.png)
+2. **Detailed steps for every test**
+![steps](https://github.com/MahmoudAdel-cpu/nopCommerce/assets/132147527/cb920ed3-3d9b-4370-bc40-a3291060a35e)
 
-4. **Screenshot 4 - Allure Report**
-   ![Allure Report](https://example.com/path/to/screenshot_allure_report.png)
 
-5. **Screenshot 5 - Trace Viewer**
-   ![Trace Viewer](https://example.com/path/to/screenshot_trace_viewer.png)
+4. **Trace View**
+![image](https://github.com/MahmoudAdel-cpu/nopCommerce/assets/132147527/135be34b-6b29-4b41-b5dc-d5f8c95379b1)
 
-Make sure to replace the placeholder URLs with the actual file paths or URLs of your screenshots.
 
 ### How to Use
 
@@ -67,16 +61,3 @@ To use this automation framework with Allure reporting and Trace Viewer, follow 
 
 7. **Analyze Trace Viewer Data:** Use Trace Viewer to analyze the captured performance data and identify any performance bottlenecks or optimizations.
 
-### Contributing
-
-We welcome contributions to this project. If you find any bugs, want to add new features, or improve existing ones, please follow the standard GitHub workflow:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes and commit them with descriptive messages.
-4. Push your changes to your fork.
-5. Submit a pull request, explaining the changes you made and the reason behind them.
-
-### License
-
-The project is released under the [MIT License](https://opensource.org/licenses/MIT), which allows you to use, modify, and distribute the code for both personal and commercial purposes.
