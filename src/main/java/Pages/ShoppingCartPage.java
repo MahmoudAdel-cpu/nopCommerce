@@ -1,10 +1,10 @@
 package Pages;
 
-import Base.TestBase;
+import Base.PlaywrightFactory;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 
-public class ShoppingCartPage extends TestBase {
+public class ShoppingCartPage extends PlaywrightFactory {
 
     Page page;
     private String termOfServce = "//input[@id='termsofservice']";

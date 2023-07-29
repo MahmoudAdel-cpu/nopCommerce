@@ -1,13 +1,12 @@
 package Pages;
 
-import Base.TestBase;
+import Base.PlaywrightFactory;
 import com.microsoft.playwright.ElementHandle;
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.SelectOption;
 import io.qameta.allure.Step;
 
-public class RegisterPage extends TestBase {
+public class RegisterPage extends PlaywrightFactory {
     Page page;
 
     private String maleGender = "//input[@id='gender-male']";
@@ -56,7 +55,6 @@ public class RegisterPage extends TestBase {
             YOB.selectOption(new SelectOption().setLabel(year));
         } else {
             System.out.println("Elements not found!");
-            // Handle the error or throw an exception
         }
         return this;
     }

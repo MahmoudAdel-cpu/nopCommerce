@@ -1,11 +1,11 @@
 package Pages;
 
-import Base.TestBase;
+import Base.PlaywrightFactory;
 import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 
-public class HomePage extends TestBase {
+public class HomePage extends PlaywrightFactory {
 
     Page page;
 
@@ -24,7 +24,7 @@ public class HomePage extends TestBase {
         page.click(loginBTN);
         return this;
     }
-    @Step
+    @Step("click on")
     public HomePage clickonRegister(){
         page.click(registerBTN);
         return this;

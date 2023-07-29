@@ -1,24 +1,31 @@
 package TestPages;
 
-import Base.TestBase;
+import Base.PlaywrightFactory;
 import Pages.HomePage;
 import Pages.LenovoProductPage;
 import Pages.ProductsPage;
 import Pages.ShoppingCartPage;
-import org.testng.annotations.BeforeTest;
+import io.qameta.allure.Description;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class ShoppingCartPageTest extends TestBase {
+import static Utils.helperFNCs.endTracing;
+import static Utils.helperFNCs.startTracing;
+
+public class ShoppingCartPageTest extends PlaywrightFactory {
     HomePage homePage;
     ProductsPage productsPage;
     LenovoProductPage lenovoProductPage;
     ShoppingCartPage shoppingCartPage;
 
-    @BeforeTest
-    public void setup() throws InterruptedException {
-        initialization();
+    @BeforeMethod
+    public void startTrace(){
+        startTracing();
     }
+
     @Test
+    @Description("Adding item to cart and agree on terms")
     public void shopping(){
         homePage = new HomePage(page);
         homePage.categoriesHover().
@@ -30,5 +37,9 @@ public class ShoppingCartPageTest extends TestBase {
         homePage.clickOnShoppingCart();
         shoppingCartPage = new ShoppingCartPage(page);
         shoppingCartPage.checkTerms();
+    }
+    @AfterMethod
+    public void endTrace(){
+        endTracing("AddingToCartTrace");
     }
 }

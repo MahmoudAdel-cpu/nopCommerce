@@ -1,16 +1,14 @@
 package Pages;
 
-import Base.TestBase;
+import Base.PlaywrightFactory;
 import com.microsoft.playwright.ElementHandle;
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.SelectOption;
 import io.qameta.allure.Step;
-import org.testng.Assert;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class CheckoutPage extends TestBase {
+public class CheckoutPage extends PlaywrightFactory {
 
     Page page;
      private String countrySelector = "//select[@id='BillingNewAddress_CountryId']";

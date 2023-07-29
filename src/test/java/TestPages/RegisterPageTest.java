@@ -1,24 +1,28 @@
 package TestPages;
-import Base.TestBase;
+import Base.PlaywrightFactory;
 import Pages.ConfirmRegisterPage;
 import Pages.HomePage;
 import Pages.RegisterPage;
 import io.qameta.allure.Description;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class RegisterPageTest extends TestBase {
+import static Utils.helperFNCs.endTracing;
+import static Utils.helperFNCs.startTracing;
+
+public class RegisterPageTest extends PlaywrightFactory {
     RegisterPage registerPage;
     HomePage homePage;
     ConfirmRegisterPage confirmRegisterPage;
 
 
-    @BeforeTest
-    public void setup() throws InterruptedException {
-        initialization();
+    @BeforeMethod
+    public void startTrace(){
+        startTracing();
     }
     @Test
-    @Description("Validate Register")
+    @Description("Register with valid data")
     public void ValidateRegister(){
         homePage = new HomePage(page);
         registerPage = new RegisterPage(page);
@@ -36,5 +40,9 @@ public class RegisterPageTest extends TestBase {
         confirmRegisterPage = registerPage.clickOnRegisterBTN();
         confirmRegisterPage.getConfirmationMessgae();
         homePage = confirmRegisterPage.clickOnConfirmButton();
+    }
+    @AfterMethod
+    public void endTrace(){
+        endTracing("RegisterTrace");
     }
 }

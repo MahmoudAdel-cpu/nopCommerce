@@ -1,10 +1,10 @@
 package Pages;
 
-import Base.TestBase;
+import Base.PlaywrightFactory;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 
-public class LoginPage extends TestBase {
+public class LoginPage extends PlaywrightFactory {
 
     Page page;
 

@@ -1,18 +1,14 @@
 package Base;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.LoadState;
-import io.qameta.allure.Allure;
-import org.apache.commons.io.FileUtils;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Properties;
 
-public class TestBase {
+public class PlaywrightFactory {
 
     public static Page page;
     public static Browser browser;
@@ -20,11 +16,12 @@ public class TestBase {
     public static Properties prop;
 
     public static Playwright playwright;
+    final static private String propPath = "C:\\Users\\LAPTOP WORLD\\IdeaProjects\\nopCommerce\\src\\main\\resources\\Config\\config.properties";
 
-    public TestBase(){
+    public PlaywrightFactory(){
         try{
             prop = new Properties();
-            FileInputStream ip = new FileInputStream("C:\\Users\\LAPTOP WORLD\\IdeaProjects\\nopCommerce\\src\\main\\resources\\Config\\config.properties");
+            FileInputStream ip = new FileInputStream(propPath);
             prop.load(ip);
         }
         catch (IOException e){
@@ -49,21 +46,7 @@ public class TestBase {
             page = browserContext.newPage();
             page.navigate(prop.getProperty("url"));
             page.waitForLoadState(LoadState.NETWORKIDLE);
-            page.setDefaultTimeout(90000);
-
         }
-    }
-    public void SS(String ScreenshotReportname,String screenshotFoldername) throws IOException{
-        String path = "C:\\Users\\LAPTOP WORLD\\IdeaProjects\\nopCommerce\\screenshots\\";
-        // Capture screenshot
-        byte[] screenshot = page.screenshot(new Page.ScreenshotOptions().setFullPage(true));
-
-        // Save screenshot to a file
-        File screenshotFile = new File(path + screenshotFoldername + ".png");
-        FileUtils.writeByteArrayToFile(screenshotFile, screenshot);
-
-        // Attach screenshot to Allure report
-        Allure.addAttachment(ScreenshotReportname, "image/png", FileUtils.openInputStream(screenshotFile), "png");
     }
     @AfterTest
     public void tearDown(){

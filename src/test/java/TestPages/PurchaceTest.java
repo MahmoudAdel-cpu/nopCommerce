@@ -1,11 +1,19 @@
 package TestPages;
 
-import Base.TestBase;
+import Base.PlaywrightFactory;
 import Pages.*;
-import org.testng.annotations.BeforeTest;
+import Utils.helperFNCs;
+import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class PurchaceTest extends TestBase {
+import static Utils.helperFNCs.startTracing;
+
+public class PurchaceTest extends PlaywrightFactory {
     HomePage homePage;
     RegisterPage registerPage;
     ConfirmRegisterPage confirmRegisterPage;
@@ -14,23 +22,25 @@ public class PurchaceTest extends TestBase {
     ShoppingCartPage shoppingCartPage;
     CheckoutPage checkoutPage;
 
-   /* @BeforeTest
-    public void setup() throws InterruptedException {
-        initialization();
-    }*/
+    @BeforeMethod
+    public void startTrace(){
+        startTracing();
+    }
     @Test
+    @Description("Order an item with logged-in user, and confirm order with specific payment method")
+    @Severity(SeverityLevel.CRITICAL)
     public void purchasingScenario(){
         homePage = new HomePage(page);
         homePage.clickonRegister();
         registerPage = new RegisterPage(page);
         registerPage.selectGender().
-                enterFName(prop.getProperty("firstname")).
-                enterLName(prop.getProperty("lastname")).
+                enterFName(prop.getProperty("purchasefname")).
+                enterLName(prop.getProperty("purchaselname")).
                 selectDateOfBirth(
                         prop.getProperty("day"),
                         prop.getProperty("month"),
                         prop.getProperty("year")).
-                enterEmail(prop.getProperty("email")).
+                enterEmail(prop.getProperty("purchasemail")).
                 enterPassword(prop.getProperty("password"),
                         prop.getProperty("password"));
         confirmRegisterPage = registerPage.clickOnRegisterBTN();
@@ -38,7 +48,7 @@ public class PurchaceTest extends TestBase {
         homePage = confirmRegisterPage.clickOnConfirmButton();
         homePage.clickonlogin();
         loginPage = new LoginPage(page);
-        loginPage.enterLoginEmail(prop.getProperty("email")).
+        loginPage.enterLoginEmail(prop.getProperty("purchasemail")).
                 enterLoginPassword(prop.getProperty("password")).
                 clickOnLoginBTN();
         homePage.categoriesHover().
@@ -62,5 +72,9 @@ public class PurchaceTest extends TestBase {
                 SelectPaymentMethod().
                 confirmOrder().
                 getConfirmationMSG();
+    }
+    @AfterMethod
+    public void endTracing(){
+        helperFNCs.endTracing("PurchasingTrace");
     }
 }

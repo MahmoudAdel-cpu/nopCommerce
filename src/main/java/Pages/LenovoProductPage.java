@@ -1,10 +1,10 @@
 package Pages;
 
-import Base.TestBase;
+import Base.PlaywrightFactory;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 
-public class LenovoProductPage extends TestBase {
+public class LenovoProductPage extends PlaywrightFactory {
 
     Page page;
     private String productQuantity = "(//input[@id='product_enteredQuantity_3'])";

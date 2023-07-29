@@ -1,20 +1,25 @@
 package TestPages;
 
-import Base.TestBase;
+import Base.PlaywrightFactory;
 import Pages.HomePage;
 import Pages.LenovoProductPage;
 import Pages.ProductsPage;
+import Utils.helperFNCs;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class LenovoProductPageTest extends TestBase {
+import static Utils.helperFNCs.startTracing;
+
+public class LenovoProductPageTest extends PlaywrightFactory {
     HomePage homePage;
     LenovoProductPage lenovoProductPage;
     ProductsPage productsPage;
 
-    @BeforeTest
-    public void setup() throws InterruptedException {
-        initialization();
+    @BeforeMethod
+    public void startTrace(){
+        startTracing();
     }
     @Test
     public void addingLenovoToCart(){
@@ -26,5 +31,9 @@ public class LenovoProductPageTest extends TestBase {
         lenovoProductPage = new LenovoProductPage(page);
         lenovoProductPage.editQuantity(prop.getProperty("quantity")).
                 addLenovoProductToCart();
+    }
+    @AfterMethod
+    public void endTracing(){
+        helperFNCs.endTracing("LenovoTrace");
     }
 }

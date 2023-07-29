@@ -1,10 +1,10 @@
 package Pages;
 
-import Base.TestBase;
+import Base.PlaywrightFactory;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 
-public class ProductsPage extends TestBase {
+public class ProductsPage extends PlaywrightFactory {
 
     Page page;
     private String lenovoProduct = "//h2[@class='product-title']//a[contains(text(),'Lenovo IdeaCentre 600 All-in-One PC')]";

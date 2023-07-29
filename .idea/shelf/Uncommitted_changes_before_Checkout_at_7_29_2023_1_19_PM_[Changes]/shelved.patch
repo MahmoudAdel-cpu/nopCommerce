@@ -1,0 +1,580 @@
+Index: src/TestNG.xml
+===================================================================
+diff --git a/src/TestNG.xml b/src/TestNG.xml
+new file mode 100644
+--- /dev/null	
++++ b/src/TestNG.xml	
+@@ -0,0 +1,16 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
++<suite name="DemoCommerce Suite">
++    <test name="RegistrationTest">
++        <classes>
++            <class name="TestPages.RegisterPageTest">
++            </class>
++        </classes>
++    </test>
++    <test name="LoginTest">
++        <classes>
++            <class name="TestPages.LoginPageTests">
++            </class>
++        </classes>
++    </test>
++</suite>
+\ No newline at end of file
+Index: src/test/java/TestPages/RegisterPageTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package TestPages;\r\nimport Base.TestBase;\r\nimport Pages.ConfirmRegisterPage;\r\nimport Pages.HomePage;\r\nimport Pages.RegisterPage;\r\nimport io.qameta.allure.Description;\r\nimport org.testng.annotations.BeforeTest;\r\nimport org.testng.annotations.Test;\r\n\r\npublic class RegisterPageTest extends TestBase {\r\n    RegisterPage registerPage;\r\n    HomePage homePage;\r\n    ConfirmRegisterPage confirmRegisterPage;\r\n\r\n\r\n    @BeforeTest\r\n    public void setup() throws InterruptedException {\r\n        initialization();\r\n    }\r\n    @Test\r\n    @Description(\"Validate Register\")\r\n    public void ValidateRegister(){\r\n        homePage = new HomePage(page);\r\n        registerPage = new RegisterPage(page);\r\n        confirmRegisterPage = new ConfirmRegisterPage(page);\r\n        homePage.clickonRegister();\r\n        registerPage.selectGender().\r\n                enterFName(prop.getProperty(\"firstname\")).\r\n                enterLName(prop.getProperty(\"lastname\")).\r\n                selectDateOfBirth(\r\n                prop.getProperty(\"day\"),\r\n                prop.getProperty(\"month\"),\r\n                prop.getProperty(\"year\")).\r\n                enterEmail(prop.getProperty(\"email\")).\r\n                enterPassword(prop.getProperty(\"password\"), prop.getProperty(\"password\"));\r\n        confirmRegisterPage = registerPage.clickOnRegisterBTN();\r\n        confirmRegisterPage.getConfirmationMessgae();\r\n        homePage = confirmRegisterPage.clickOnConfirmButton();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/TestPages/RegisterPageTest.java b/src/test/java/TestPages/RegisterPageTest.java
+--- a/src/test/java/TestPages/RegisterPageTest.java	
++++ b/src/test/java/TestPages/RegisterPageTest.java	
+@@ -1,5 +1,5 @@
+ package TestPages;
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import Pages.ConfirmRegisterPage;
+ import Pages.HomePage;
+ import Pages.RegisterPage;
+@@ -7,16 +7,12 @@
+ import org.testng.annotations.BeforeTest;
+ import org.testng.annotations.Test;
+ 
+-public class RegisterPageTest extends TestBase {
++public class RegisterPageTest extends PlaywrightFactory {
+     RegisterPage registerPage;
+     HomePage homePage;
+     ConfirmRegisterPage confirmRegisterPage;
+ 
+ 
+-    @BeforeTest
+-    public void setup() throws InterruptedException {
+-        initialization();
+-    }
+     @Test
+     @Description("Validate Register")
+     public void ValidateRegister(){
+Index: src/main/java/Pages/LoginPage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Pages;\r\n\r\nimport Base.TestBase;\r\nimport com.microsoft.playwright.Page;\r\nimport io.qameta.allure.Step;\r\n\r\npublic class LoginPage extends TestBase {\r\n\r\n    Page page;\r\n\r\n    public LoginPage (Page page){\r\n        this.page = page;\r\n    }\r\n\r\n    private String emailField = \"//input[@id='Email']\";\r\n    private String passwordField = \"//input[@id='Password']\";\r\n    private String loginBTN = \"//button[normalize-space()='Log in']\";\r\n\r\n    @Step\r\n    public LoginPage enterLoginEmail(String email){\r\n        page.fill(emailField, email);\r\n        return this;\r\n    }\r\n     @Step\r\n    public LoginPage enterLoginPassword(String password){\r\n        page.fill(passwordField, password);\r\n        return this;\r\n    }\r\n    @Step\r\n    public LoginPage clickOnLoginBTN(){\r\n        page.click(loginBTN);\r\n        return this;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Pages/LoginPage.java b/src/main/java/Pages/LoginPage.java
+--- a/src/main/java/Pages/LoginPage.java	
++++ b/src/main/java/Pages/LoginPage.java	
+@@ -1,10 +1,10 @@
+ package Pages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import com.microsoft.playwright.Page;
+ import io.qameta.allure.Step;
+ 
+-public class LoginPage extends TestBase {
++public class LoginPage extends PlaywrightFactory {
+ 
+     Page page;
+ 
+Index: src/main/java/Pages/RegisterPage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Pages;\r\n\r\nimport Base.TestBase;\r\nimport com.microsoft.playwright.ElementHandle;\r\nimport com.microsoft.playwright.Locator;\r\nimport com.microsoft.playwright.Page;\r\nimport com.microsoft.playwright.options.SelectOption;\r\nimport io.qameta.allure.Step;\r\n\r\npublic class RegisterPage extends TestBase {\r\n    Page page;\r\n\r\n    private String maleGender = \"//input[@id='gender-male']\";\r\n    private String femaleGener = \"//input[@id='gender-female']\";\r\n    private String firstName = \"//input[@id='FirstName']\";\r\n    private String lastName = \"//input[@id='LastName']\";\r\n    private String dateOfBirth = \"//select[@name='DateOfBirthDay']\";\r\n    private String monthOfBirth = \"//select[@name='DateOfBirthMonth']\";\r\n    private String yearOfBirth = \"//select[@name='DateOfBirthYear']\";\r\n    private String emailField = \"//input[@id='Email']\";\r\n    private String passwordField = \"//input[@id='Password']\";\r\n    private String confirmPasswordField = \"//input[@id='ConfirmPassword']\";\r\n    private String registerBTN = \"//button[@id='register-button']\";\r\n\r\n    public RegisterPage (Page page){\r\n        this.page = page;\r\n    }\r\n\r\n    @Step\r\n    public RegisterPage selectGender(){\r\n        page.click(maleGender);\r\n        return this;\r\n    }\r\n    @Step\r\n    public RegisterPage enterFName(String FName){\r\n        page.fill(firstName, FName);\r\n        return this;\r\n    }\r\n    @Step\r\n    public RegisterPage enterLName(String LName){\r\n        page.fill(lastName, LName);\r\n        return this;\r\n    }\r\n    @Step\r\n    public RegisterPage selectDateOfBirth(String day, String month, String year) {\r\n        // Wait for the element to be available before accessing it\r\n        page.waitForSelector(dateOfBirth);\r\n        page.waitForSelector(monthOfBirth);\r\n        page.waitForSelector(yearOfBirth);\r\n        ElementHandle DOB = page.querySelector(dateOfBirth);\r\n        ElementHandle MOB = page.querySelector(monthOfBirth);\r\n        ElementHandle YOB = page.querySelector(yearOfBirth);\r\n        if (DOB != null && MOB != null && YOB != null) {\r\n            DOB.selectOption(new SelectOption().setLabel(day));\r\n            MOB.selectOption(new SelectOption().setLabel(month));\r\n            YOB.selectOption(new SelectOption().setLabel(year));\r\n        } else {\r\n            System.out.println(\"Elements not found!\");\r\n            // Handle the error or throw an exception\r\n        }\r\n        return this;\r\n    }\r\n    @Step\r\n    public RegisterPage enterEmail(String email){\r\n        page.fill(emailField,email);\r\n        return this;\r\n    }\r\n    @Step\r\n    public RegisterPage enterPassword(String password, String confirmPassword){\r\n        page.fill(passwordField,password);\r\n        page.fill(confirmPasswordField,confirmPassword);\r\n        return this;\r\n    }\r\n    @Step\r\n    public ConfirmRegisterPage clickOnRegisterBTN(){\r\n        page.click(registerBTN);\r\n        return new ConfirmRegisterPage(page);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Pages/RegisterPage.java b/src/main/java/Pages/RegisterPage.java
+--- a/src/main/java/Pages/RegisterPage.java	
++++ b/src/main/java/Pages/RegisterPage.java	
+@@ -1,13 +1,12 @@
+ package Pages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import com.microsoft.playwright.ElementHandle;
+-import com.microsoft.playwright.Locator;
+ import com.microsoft.playwright.Page;
+ import com.microsoft.playwright.options.SelectOption;
+ import io.qameta.allure.Step;
+ 
+-public class RegisterPage extends TestBase {
++public class RegisterPage extends PlaywrightFactory {
+     Page page;
+ 
+     private String maleGender = "//input[@id='gender-male']";
+Index: src/main/java/Pages/ShoppingCartPage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Pages;\r\n\r\nimport Base.TestBase;\r\nimport com.microsoft.playwright.Page;\r\nimport io.qameta.allure.Step;\r\n\r\npublic class ShoppingCartPage extends TestBase {\r\n\r\n    Page page;\r\n    private String termOfServce = \"//input[@id='termsofservice']\";\r\n    private String checkoutBTN = \"//button[@id='checkout']\";\r\n\r\n    public ShoppingCartPage(Page page) {\r\n        this.page = page;\r\n    }\r\n\r\n    @Step\r\n    public ShoppingCartPage checkTerms() {\r\n        page.click(termOfServce);\r\n        if (page.locator(termOfServce).isChecked()) {\r\n            System.out.println(\"Agreed with terms of service\");\r\n        } else {\r\n            System.out.println(\"Did not agree with terms of service\");\r\n        }\r\n        return this;\r\n    }\r\n    public ShoppingCartPage clickOnCheckoutBTN(){\r\n        page.click(checkoutBTN);\r\n        return this;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Pages/ShoppingCartPage.java b/src/main/java/Pages/ShoppingCartPage.java
+--- a/src/main/java/Pages/ShoppingCartPage.java	
++++ b/src/main/java/Pages/ShoppingCartPage.java	
+@@ -1,10 +1,10 @@
+ package Pages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import com.microsoft.playwright.Page;
+ import io.qameta.allure.Step;
+ 
+-public class ShoppingCartPage extends TestBase {
++public class ShoppingCartPage extends PlaywrightFactory {
+ 
+     Page page;
+     private String termOfServce = "//input[@id='termsofservice']";
+Index: src/main/java/Pages/ProductsPage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Pages;\r\n\r\nimport Base.TestBase;\r\nimport com.microsoft.playwright.Page;\r\nimport io.qameta.allure.Step;\r\n\r\npublic class ProductsPage extends TestBase {\r\n\r\n    Page page;\r\n    private String lenovoProduct = \"//h2[@class='product-title']//a[contains(text(),'Lenovo IdeaCentre 600 All-in-One PC')]\";\r\n\r\n    public ProductsPage (Page page){\r\n        this.page = page;\r\n    }\r\n\r\n    @Step\r\n    public LenovoProductPage clickOnLenovoProduct(){\r\n        page.click(lenovoProduct);\r\n        return new LenovoProductPage(page);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Pages/ProductsPage.java b/src/main/java/Pages/ProductsPage.java
+--- a/src/main/java/Pages/ProductsPage.java	
++++ b/src/main/java/Pages/ProductsPage.java	
+@@ -1,10 +1,10 @@
+ package Pages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import com.microsoft.playwright.Page;
+ import io.qameta.allure.Step;
+ 
+-public class ProductsPage extends TestBase {
++public class ProductsPage extends PlaywrightFactory {
+ 
+     Page page;
+     private String lenovoProduct = "//h2[@class='product-title']//a[contains(text(),'Lenovo IdeaCentre 600 All-in-One PC')]";
+Index: src/main/java/Pages/LenovoProductPage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Pages;\r\n\r\nimport Base.TestBase;\r\nimport com.microsoft.playwright.Page;\r\nimport io.qameta.allure.Step;\r\n\r\npublic class LenovoProductPage extends TestBase {\r\n\r\n    Page page;\r\n    private String productQuantity = \"(//input[@id='product_enteredQuantity_3'])\";\r\n    private String addToCartBTN = \"//button[@id='add-to-cart-button-3']\";\r\n\r\n    public LenovoProductPage (Page page){\r\n        this.page = page;\r\n    }\r\n    @Step\r\n    public LenovoProductPage editQuantity(String quantity){\r\n        page.fill(productQuantity,quantity);\r\n        return this;\r\n    }\r\n    @Step\r\n    public LenovoProductPage addLenovoProductToCart(){\r\n        page.click(addToCartBTN);\r\n        return this;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Pages/LenovoProductPage.java b/src/main/java/Pages/LenovoProductPage.java
+--- a/src/main/java/Pages/LenovoProductPage.java	
++++ b/src/main/java/Pages/LenovoProductPage.java	
+@@ -1,10 +1,10 @@
+ package Pages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import com.microsoft.playwright.Page;
+ import io.qameta.allure.Step;
+ 
+-public class LenovoProductPage extends TestBase {
++public class LenovoProductPage extends PlaywrightFactory {
+ 
+     Page page;
+     private String productQuantity = "(//input[@id='product_enteredQuantity_3'])";
+Index: src/main/java/Pages/HomePage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Pages;\r\n\r\nimport Base.TestBase;\r\nimport com.microsoft.playwright.ElementHandle;\r\nimport com.microsoft.playwright.Page;\r\nimport io.qameta.allure.Step;\r\n\r\npublic class HomePage extends TestBase {\r\n\r\n    Page page;\r\n\r\n    private String loginBTN = \"//a[normalize-space()='Log in']\";\r\n    private String registerBTN = \"//a[normalize-space()='Register']\";\r\n    private String catHover = \"//ul[@class=\\\"top-menu notmobile\\\"]/li/a\";\r\n    private String desktopsCategory = \"(//a[normalize-space()='Desktops'])[1]\";\r\n    private String shoppingCartIcon = \"//span[@class='cart-label']\";\r\n\r\n    public HomePage(Page page) {\r\n        this.page = page;\r\n    }\r\n\r\n    @Step\r\n    public HomePage clickonlogin(){\r\n        page.click(loginBTN);\r\n        return this;\r\n    }\r\n    @Step\r\n    public HomePage clickonRegister(){\r\n        page.click(registerBTN);\r\n        return this;\r\n    }\r\n    @Step\r\n    public HomePage categoriesHover(){\r\n        ElementHandle categories = page.querySelector(catHover);\r\n        categories.hover();\r\n        return this;\r\n    }\r\n    public HomePage getDesktops(){\r\n        page.click(desktopsCategory);\r\n        return this;\r\n    }\r\n    public HomePage clickOnShoppingCart(){\r\n        page.click(shoppingCartIcon);\r\n        return this;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Pages/HomePage.java b/src/main/java/Pages/HomePage.java
+--- a/src/main/java/Pages/HomePage.java	
++++ b/src/main/java/Pages/HomePage.java	
+@@ -1,11 +1,11 @@
+ package Pages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import com.microsoft.playwright.ElementHandle;
+ import com.microsoft.playwright.Page;
+ import io.qameta.allure.Step;
+ 
+-public class HomePage extends TestBase {
++public class HomePage extends PlaywrightFactory {
+ 
+     Page page;
+ 
+Index: src/main/resources/Config/config.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>url = https://demo.nopcommerce.com/\r\nbrowser = chrome\r\nfirstname = mahmoud\r\nlastname = cpu\r\npassword = 123456789\r\nemail = tester2@test.com\r\nday = 25\r\nmonth = May\r\nyear = 2000\r\nquantity = 2\r\ncountry = Egypt\r\nphone = 01027284937\r\ncity = Mansoura\r\naddress = Mansoura, Egypt\r\nzipCode = 123456\r\ncardHolderName = Tester\r\ncardNumber = 4263982640269299\r\nexpMonth = 02\r\nexpYear = 2026\r\ncardCode = 837
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/src/main/resources/Config/config.properties b/src/main/resources/Config/config.properties
+--- a/src/main/resources/Config/config.properties	
++++ b/src/main/resources/Config/config.properties	
+@@ -3,7 +3,7 @@
+ firstname = mahmoud
+ lastname = cpu
+ password = 123456789
+-email = tester2@test.com
++email = tester6@test.com
+ day = 25
+ month = May
+ year = 2000
+Index: src/test/java/TestPages/CategoriesHover.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package TestPages;\r\n\r\nimport Base.TestBase;\r\nimport Pages.HomePage;\r\nimport org.testng.annotations.BeforeTest;\r\nimport org.testng.annotations.Test;\r\n\r\npublic class CategoriesHover extends TestBase {\r\n    HomePage homePage;\r\n\r\n    @BeforeTest\r\n    public void setup() throws InterruptedException{\r\n        initialization();\r\n    }\r\n    @Test\r\n    public void getDesktopsProducts(){\r\n        homePage = new HomePage(page);\r\n        homePage.categoriesHover().\r\n                getDesktops();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/TestPages/CategoriesHover.java b/src/test/java/TestPages/CategoriesHover.java
+--- a/src/test/java/TestPages/CategoriesHover.java	
++++ b/src/test/java/TestPages/CategoriesHover.java	
+@@ -1,11 +1,11 @@
+ package TestPages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import Pages.HomePage;
+ import org.testng.annotations.BeforeTest;
+ import org.testng.annotations.Test;
+ 
+-public class CategoriesHover extends TestBase {
++public class CategoriesHover extends PlaywrightFactory {
+     HomePage homePage;
+ 
+     @BeforeTest
+Index: src/test/java/TestPages/ProductsPageTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package TestPages;\r\n\r\nimport Base.TestBase;\r\nimport Pages.HomePage;\r\nimport org.testng.annotations.BeforeTest;\r\nimport org.testng.annotations.Test;\r\n\r\npublic class ProductsPageTest extends TestBase {\r\n\r\n    HomePage homePage;\r\n    @BeforeTest\r\n    public void setup() throws InterruptedException {\r\n        initialization();\r\n    }\r\n    @Test\r\n    public void hoverOncat(){\r\n        homePage = new HomePage(page);\r\n        homePage.categoriesHover();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/TestPages/ProductsPageTest.java b/src/test/java/TestPages/ProductsPageTest.java
+--- a/src/test/java/TestPages/ProductsPageTest.java	
++++ b/src/test/java/TestPages/ProductsPageTest.java	
+@@ -1,11 +1,11 @@
+ package TestPages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import Pages.HomePage;
+ import org.testng.annotations.BeforeTest;
+ import org.testng.annotations.Test;
+ 
+-public class ProductsPageTest extends TestBase {
++public class ProductsPageTest extends PlaywrightFactory {
+ 
+     HomePage homePage;
+     @BeforeTest
+Index: src/test/java/TestPages/LenovoProductPageTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package TestPages;\r\n\r\nimport Base.TestBase;\r\nimport Pages.HomePage;\r\nimport Pages.LenovoProductPage;\r\nimport Pages.ProductsPage;\r\nimport org.testng.annotations.BeforeTest;\r\nimport org.testng.annotations.Test;\r\n\r\npublic class LenovoProductPageTest extends TestBase {\r\n    HomePage homePage;\r\n    LenovoProductPage lenovoProductPage;\r\n    ProductsPage productsPage;\r\n\r\n    @BeforeTest\r\n    public void setup() throws InterruptedException {\r\n        initialization();\r\n    }\r\n    @Test\r\n    public void addingLenovoToCart(){\r\n        homePage = new HomePage(page);\r\n        homePage.categoriesHover().\r\n                getDesktops();\r\n        productsPage = new ProductsPage(page);\r\n        productsPage.clickOnLenovoProduct();\r\n        lenovoProductPage = new LenovoProductPage(page);\r\n        lenovoProductPage.editQuantity(prop.getProperty(\"quantity\")).\r\n                addLenovoProductToCart();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/TestPages/LenovoProductPageTest.java b/src/test/java/TestPages/LenovoProductPageTest.java
+--- a/src/test/java/TestPages/LenovoProductPageTest.java	
++++ b/src/test/java/TestPages/LenovoProductPageTest.java	
+@@ -1,13 +1,13 @@
+ package TestPages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import Pages.HomePage;
+ import Pages.LenovoProductPage;
+ import Pages.ProductsPage;
+ import org.testng.annotations.BeforeTest;
+ import org.testng.annotations.Test;
+ 
+-public class LenovoProductPageTest extends TestBase {
++public class LenovoProductPageTest extends PlaywrightFactory {
+     HomePage homePage;
+     LenovoProductPage lenovoProductPage;
+     ProductsPage productsPage;
+Index: src/test/java/TestPages/ShoppingCartPageTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package TestPages;\r\n\r\nimport Base.TestBase;\r\nimport Pages.HomePage;\r\nimport Pages.LenovoProductPage;\r\nimport Pages.ProductsPage;\r\nimport Pages.ShoppingCartPage;\r\nimport org.testng.annotations.BeforeTest;\r\nimport org.testng.annotations.Test;\r\n\r\npublic class ShoppingCartPageTest extends TestBase {\r\n    HomePage homePage;\r\n    ProductsPage productsPage;\r\n    LenovoProductPage lenovoProductPage;\r\n    ShoppingCartPage shoppingCartPage;\r\n\r\n    @BeforeTest\r\n    public void setup() throws InterruptedException {\r\n        initialization();\r\n    }\r\n    @Test\r\n    public void shopping(){\r\n        homePage = new HomePage(page);\r\n        homePage.categoriesHover().\r\n                getDesktops();\r\n        productsPage = new ProductsPage(page);\r\n        productsPage.clickOnLenovoProduct();\r\n        lenovoProductPage = new LenovoProductPage(page);\r\n        lenovoProductPage.addLenovoProductToCart();\r\n        homePage.clickOnShoppingCart();\r\n        shoppingCartPage = new ShoppingCartPage(page);\r\n        shoppingCartPage.checkTerms();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/TestPages/ShoppingCartPageTest.java b/src/test/java/TestPages/ShoppingCartPageTest.java
+--- a/src/test/java/TestPages/ShoppingCartPageTest.java	
++++ b/src/test/java/TestPages/ShoppingCartPageTest.java	
+@@ -1,6 +1,6 @@
+ package TestPages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import Pages.HomePage;
+ import Pages.LenovoProductPage;
+ import Pages.ProductsPage;
+@@ -8,7 +8,7 @@
+ import org.testng.annotations.BeforeTest;
+ import org.testng.annotations.Test;
+ 
+-public class ShoppingCartPageTest extends TestBase {
++public class ShoppingCartPageTest extends PlaywrightFactory {
+     HomePage homePage;
+     ProductsPage productsPage;
+     LenovoProductPage lenovoProductPage;
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"c9858551-e5ec-4adb-9016-0335670ac59a\" name=\"Changes\" comment=\"beeb\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/Pages/CheckoutPage.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/Pages/CheckoutPage.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/resources/Config/config.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/resources/Config/config.properties\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/TestPages/PurchaceTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/TestPages/PurchaceTest.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"master\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"generalSettings\">\r\n      <MavenGeneralSettings>\r\n        <option name=\"useMavenConfig\" value=\"true\" />\r\n      </MavenGeneralSettings>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2T6Ta6juNyzBjJGZHzCRtprmTAy\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"ASKED_ADD_EXTERNAL_FILES\": \"true\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"settings.editor.selected.configurable\": \"preferences.keymap\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RunManager\" selected=\"TestNG.PurchaceTest\">\r\n    <configuration default=\"true\" type=\"JetRunConfigurationType\">\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"KotlinStandaloneScriptRunConfigurationType\">\r\n      <option name=\"filePath\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"LenovoProductPageTest\" type=\"TestNG\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"nopCommerce\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"TestPages.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"TestPages\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"TestPages.LenovoProductPageTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"CLASS\" />\r\n      <properties />\r\n      <listeners />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"PurchaceTest\" type=\"TestNG\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"nopCommerce\" />\r\n      <option name=\"PACKAGE_NAME\" value=\"\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"TestPages.PurchaceTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"CLASS\" />\r\n      <properties />\r\n      <listeners />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ShoppingCartPageTest\" type=\"TestNG\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"nopCommerce\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"TestPages.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"TestPages\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"TestPages.ShoppingCartPageTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"CLASS\" />\r\n      <properties />\r\n      <listeners />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"TestNG.PurchaceTest\" />\r\n        <item itemvalue=\"TestNG.ShoppingCartPageTest\" />\r\n        <item itemvalue=\"TestNG.LenovoProductPageTest\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"c9858551-e5ec-4adb-9016-0335670ac59a\" name=\"Changes\" comment=\"\" />\r\n      <created>1690362590467</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1690362590467</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"beeb\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1690364930610</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1690364930610</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"2\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"origin/main\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <MESSAGE value=\"beeb\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"beeb\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -4,11 +4,27 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="c9858551-e5ec-4adb-9016-0335670ac59a" name="Changes" comment="beeb">
++    <list default="true" id="c9858551-e5ec-4adb-9016-0335670ac59a" name="Changes" comment="remove .idea folder">
++      <change afterPath="$PROJECT_DIR$/src/TestNG.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Base/PlaywrightFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Base/PlaywrightFactory.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/Pages/CheckoutPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/CheckoutPage.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Pages/ConfirmRegisterPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/ConfirmRegisterPage.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Pages/HomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/HomePage.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Pages/LenovoProductPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/LenovoProductPage.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Pages/LoginPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/LoginPage.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Pages/ProductsPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/ProductsPage.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Pages/RegisterPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/RegisterPage.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Pages/ShoppingCartPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Pages/ShoppingCartPage.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/resources/Config/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Config/config.properties" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/test/java/TestPages/PurchaceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestPages/PurchaceTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/TestPages/CategoriesHover.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestPages/CategoriesHover.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/TestPages/LenovoProductPageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestPages/LenovoProductPageTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/TestPages/LoginPageTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestPages/LoginPageTests.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/TestPages/ProductsPageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestPages/ProductsPageTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/TestPages/PurchaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestPages/PurchaseTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/TestPages/RegisterPageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestPages/RegisterPageTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/TestPages/ShoppingCartPageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestPages/ShoppingCartPageTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/trace.zip" beforeDir="false" afterPath="$PROJECT_DIR$/trace.zip" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -48,24 +64,29 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "ASKED_ADD_EXTERNAL_FILES": "true",
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+-    "git-widget-placeholder": "main",
+-    "settings.editor.selected.configurable": "preferences.keymap"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+   }
+-}]]></component>
+-  <component name="RunManager" selected="TestNG.PurchaceTest">
+-    <configuration default="true" type="JetRunConfigurationType">
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+-      <option name="filePath" />
++}</component>
++  <component name="RecentsManager">
++    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
++      <recent name="Base" />
++      <recent name="" />
++    </key>
++  </component>
++  <component name="RunManager" selected="TestNG.C:/Users/LAPTOP WORLD/IdeaProjects/nopCommerce/src/TestNG.xml">
++    <configuration name="C:/Users/LAPTOP WORLD/IdeaProjects/nopCommerce/src/TestNG.xml" type="TestNG" temporary="true" nameIsGenerated="true">
++      <module name="nopCommerce" />
++      <option name="SUITE_NAME" value="$PROJECT_DIR$/src/TestNG.xml" />
++      <option name="TEST_OBJECT" value="SUITE" />
++      <properties />
++      <listeners />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+@@ -87,10 +108,10 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="PurchaceTest" type="TestNG" temporary="true" nameIsGenerated="true">
++    <configuration name="PurchaseTest" type="TestNG" temporary="true" nameIsGenerated="true">
+       <module name="nopCommerce" />
+       <option name="PACKAGE_NAME" value="" />
+-      <option name="MAIN_CLASS_NAME" value="TestPages.PurchaceTest" />
++      <option name="MAIN_CLASS_NAME" value="TestPages.PurchaseTest" />
+       <option name="TEST_OBJECT" value="CLASS" />
+       <properties />
+       <listeners />
+@@ -117,7 +138,8 @@
+     </configuration>
+     <recent_temporary>
+       <list>
+-        <item itemvalue="TestNG.PurchaceTest" />
++        <item itemvalue="TestNG.C:/Users/LAPTOP WORLD/IdeaProjects/nopCommerce/src/TestNG.xml" />
++        <item itemvalue="TestNG.PurchaseTest" />
+         <item itemvalue="TestNG.ShoppingCartPageTest" />
+         <item itemvalue="TestNG.LenovoProductPageTest" />
+       </list>
+Index: src/test/java/TestPages/LoginPageTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package TestPages;\r\n\r\nimport Base.TestBase;\r\nimport Pages.HomePage;\r\nimport Pages.LoginPage;\r\nimport io.qameta.allure.Description;\r\nimport org.testng.annotations.BeforeTest;\r\nimport org.testng.annotations.Test;\r\n\r\npublic class LoginPageTests extends TestBase {\r\n\r\n    LoginPage loginPage;\r\n    HomePage homePage;\r\n\r\n    @BeforeTest\r\n    public void setup() throws InterruptedException {\r\n        initialization();\r\n    }\r\n    @Test\r\n    @Description(\"Login with data I entered while registering\")\r\n    public void validateLogin(){\r\n        homePage  = new HomePage(page);\r\n        loginPage = new LoginPage(page);\r\n        homePage.clickonlogin();\r\n        loginPage.enterLoginEmail(prop.getProperty(\"email\")).\r\n                enterLoginPassword(prop.getProperty(\"password\")).\r\n                clickOnLoginBTN();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/TestPages/LoginPageTests.java b/src/test/java/TestPages/LoginPageTests.java
+--- a/src/test/java/TestPages/LoginPageTests.java	
++++ b/src/test/java/TestPages/LoginPageTests.java	
+@@ -1,21 +1,17 @@
+ package TestPages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import Pages.HomePage;
+ import Pages.LoginPage;
+ import io.qameta.allure.Description;
+ import org.testng.annotations.BeforeTest;
+ import org.testng.annotations.Test;
+ 
+-public class LoginPageTests extends TestBase {
++public class LoginPageTests extends PlaywrightFactory {
+ 
+     LoginPage loginPage;
+     HomePage homePage;
+ 
+-    @BeforeTest
+-    public void setup() throws InterruptedException {
+-        initialization();
+-    }
+     @Test
+     @Description("Login with data I entered while registering")
+     public void validateLogin(){
+Index: src/main/java/Pages/CheckoutPage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Pages;\r\n\r\nimport Base.TestBase;\r\nimport com.microsoft.playwright.ElementHandle;\r\nimport com.microsoft.playwright.Locator;\r\nimport com.microsoft.playwright.Page;\r\nimport com.microsoft.playwright.options.SelectOption;\r\nimport io.qameta.allure.Step;\r\nimport org.testng.Assert;\r\n\r\nimport static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;\r\n\r\npublic class CheckoutPage extends TestBase {\r\n\r\n    Page page;\r\n     private String countrySelector = \"//select[@id='BillingNewAddress_CountryId']\";\r\n     private String myCity = \"//input[@id='BillingNewAddress_City']\";\r\n     private String myAddress = \"//input[@id='BillingNewAddress_Address1']\";\r\n     private String stateZipCode = \"//input[@id='BillingNewAddress_ZipPostalCode']\";\r\n     private String myPhoneNumber = \"//input[@id='BillingNewAddress_PhoneNumber']\";\r\n     private String contineBTN = \"button[onclick='Billing.save()']\";\r\n     private String shippingMethod = \"//input[@id='shippingoption_0']\";\r\n     private String shippingMethodContinueBTN = \"//button[@class='button-1 shipping-method-next-step-button']\";\r\n     private String moneyOrderMethod = \"//input[@id='paymentmethod_0']\";\r\n     private String creditCardMethod = \"//input[@id='paymentmethod_1']\";\r\n     private String paymentContinueBTN = \"//button[@class='button-1 payment-method-next-step-button']\";\r\n    private String cardHolderName = \"//input[@id='CardholderName']\";\r\n    private String cardNumber = \"//input[@id='CardNumber']\";\r\n    private String expMonthDate = \"//select[@id='ExpireMonth']\";\r\n    private String expYearDate = \"//select[@id='ExpireYear']\";\r\n    private String cardCode = \"//input[@id='CardCode']\";\r\n    private String savePaymentMethodBTN = \"//button[@class='button-1 payment-info-next-step-button']\";\r\n    private String confirmOrderBTN = \"//button[@onclick='ConfirmOrder.save()']\";\r\n    private String confirmationMSG = \"//div[@class='section order-completed']//div[@class='title']\";\r\n    public CheckoutPage (Page page){\r\n        this.page = page;\r\n    }\r\n    public CheckoutPage BillingDetails(String country,String address,String city, String zipCode,String phoneNumber){\r\n        page.waitForSelector(countrySelector);\r\n        ElementHandle countries = page.querySelector(countrySelector);\r\n        countries.selectOption(new SelectOption().setLabel(country));\r\n        page.fill(myAddress, address);\r\n        page.fill(myCity, city);\r\n        page.fill(stateZipCode, zipCode);\r\n        page.fill(myPhoneNumber, phoneNumber);\r\n        page.click(contineBTN);\r\n        return this;\r\n    }\r\n    @Step\r\n    public CheckoutPage SelectShippingMethod(){\r\n        page.click(shippingMethod);\r\n        page.click(shippingMethodContinueBTN);\r\n        return this;\r\n    }\r\n\r\n    public CheckoutPage creditCardPaymentSceanrio(String holder, String number, String month, String year, String code){\r\n        page.click(creditCardMethod);\r\n        page.click(paymentContinueBTN);\r\n        page.fill(cardHolderName,holder);\r\n        page.fill(cardNumber,number);\r\n        ElementHandle expiryMonth = page.querySelector(expMonthDate);\r\n        ElementHandle expiryYear = page.querySelector(expYearDate);\r\n        expiryMonth.selectOption(new SelectOption().setLabel(month));\r\n        expiryYear.selectOption(new SelectOption().setLabel(year));\r\n        page.fill(cardCode,code);\r\n        page.click(savePaymentMethodBTN);\r\n        System.out.println(\"Payment method is Credit Card\");\r\n        return this;\r\n    }\r\n    @Step\r\n    public CheckoutPage SelectPaymentMethod(){\r\n        //page.click(moneyOrderMethod); // Money order method\r\n        page.click(creditCardMethod); // Credit card method\r\n        if (page.locator(moneyOrderMethod).isChecked()){\r\n            String savePaymentMethodBTN = \"//button[@class='button-1 payment-method-next-step-button']\";\r\n            page.click(savePaymentMethodBTN);\r\n            System.out.println(\"Payment method is Money Order\");\r\n        }\r\n        else {\r\n            creditCardPaymentSceanrio(prop.getProperty(\"cardHolderName\"),\r\n                    prop.getProperty(\"cardNumber\"),\r\n                    prop.getProperty(\"expMonth\"),\r\n                    prop.getProperty(\"expYear\"),\r\n                    prop.getProperty(\"cardCode\"));\r\n        }\r\n        return this;\r\n    }\r\n    public CheckoutPage confirmOrder(){\r\n        page.click(confirmOrderBTN);\r\n        return this;\r\n    }\r\n    public CheckoutPage getConfirmationMSG(){\r\n        assertThat(page.locator(confirmationMSG)).containsText(\"successfully processed!\");\r\n        System.out.println(page.locator(confirmationMSG).innerText());\r\n        return this;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Pages/CheckoutPage.java b/src/main/java/Pages/CheckoutPage.java
+--- a/src/main/java/Pages/CheckoutPage.java	
++++ b/src/main/java/Pages/CheckoutPage.java	
+@@ -1,16 +1,14 @@
+ package Pages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import com.microsoft.playwright.ElementHandle;
+-import com.microsoft.playwright.Locator;
+ import com.microsoft.playwright.Page;
+ import com.microsoft.playwright.options.SelectOption;
+ import io.qameta.allure.Step;
+-import org.testng.Assert;
+ 
+ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+ 
+-public class CheckoutPage extends TestBase {
++public class CheckoutPage extends PlaywrightFactory {
+ 
+     Page page;
+      private String countrySelector = "//select[@id='BillingNewAddress_CountryId']";
+Index: src/main/java/Pages/ConfirmRegisterPage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Pages;\r\n\r\nimport Base.TestBase;\r\nimport com.microsoft.playwright.ElementHandle;\r\nimport com.microsoft.playwright.Page;\r\nimport io.qameta.allure.Step;\r\n\r\nimport static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;\r\n\r\npublic class ConfirmRegisterPage extends TestBase {\r\n\r\n    Page page;\r\n    private String confirmMessage = \"//div[@class='result']\";\r\n    private String confirmButton = \"//a[normalize-space()='Continue']\";\r\n    public ConfirmRegisterPage(Page page){\r\n        this.page = page;\r\n    }\r\n    @Step\r\n    public ConfirmRegisterPage getConfirmationMessgae(){\r\n        page.waitForSelector(confirmMessage);\r\n        assertThat(page.locator(confirmMessage)).hasText(\"Your registration completed\");\r\n        return this;\r\n    }\r\n    @Step\r\n    public HomePage clickOnConfirmButton(){\r\n        page.click(confirmButton);\r\n        return new HomePage(page);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Pages/ConfirmRegisterPage.java b/src/main/java/Pages/ConfirmRegisterPage.java
+--- a/src/main/java/Pages/ConfirmRegisterPage.java	
++++ b/src/main/java/Pages/ConfirmRegisterPage.java	
+@@ -1,13 +1,12 @@
+ package Pages;
+ 
+-import Base.TestBase;
+-import com.microsoft.playwright.ElementHandle;
++import Base.PlaywrightFactory;
+ import com.microsoft.playwright.Page;
+ import io.qameta.allure.Step;
+ 
+ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+ 
+-public class ConfirmRegisterPage extends TestBase {
++public class ConfirmRegisterPage extends PlaywrightFactory {
+ 
+     Page page;
+     private String confirmMessage = "//div[@class='result']";
+Index: src/main/java/Base/PlaywrightFactory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Base;\r\nimport com.microsoft.playwright.*;\r\nimport com.microsoft.playwright.options.LoadState;\r\nimport io.qameta.allure.Allure;\r\nimport org.apache.commons.io.FileUtils;\r\nimport org.testng.annotations.AfterTest;\r\nimport org.testng.annotations.BeforeTest;\r\n\r\nimport java.io.File;\r\nimport java.io.FileInputStream;\r\nimport java.io.IOException;\r\nimport java.nio.file.Paths;\r\nimport java.util.Properties;\r\n\r\npublic class TestBase {\r\n\r\n    public static Page page;\r\n    public static Browser browser;\r\n    public static BrowserContext browserContext;\r\n    public static Properties prop;\r\n\r\n    public static Playwright playwright;\r\n\r\n    public TestBase(){\r\n        try{\r\n            prop = new Properties();\r\n            FileInputStream ip = new FileInputStream(\"C:\\\\Users\\\\LAPTOP WORLD\\\\IdeaProjects\\\\nopCommerce\\\\src\\\\main\\\\resources\\\\Config\\\\config.properties\");\r\n            prop.load(ip);\r\n        }\r\n        catch (IOException e){\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n\r\n    @BeforeTest\r\n    public static void initialization() throws InterruptedException {\r\n        String browserName = prop.getProperty(\"browser\");\r\n        if (browserName.equals(\"chrome\")){\r\n            playwright = Playwright.create();\r\n            browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));\r\n            browserContext = browser.newContext();\r\n            page = browserContext.newPage();\r\n            page.navigate(prop.getProperty(\"url\"));\r\n            page.waitForLoadState(LoadState.NETWORKIDLE);\r\n            browserContext.tracing().start(new Tracing.StartOptions()\r\n                    .setScreenshots(true)\r\n                    .setSnapshots(true)\r\n                    .setSources(true));\r\n\r\n        } else { playwright = Playwright.create();\r\n            browser = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(false));\r\n            browserContext = browser.newContext();\r\n            page = browserContext.newPage();\r\n            page.navigate(prop.getProperty(\"url\"));\r\n            page.waitForLoadState(LoadState.NETWORKIDLE);\r\n            page.setDefaultTimeout(90000);\r\n\r\n        }\r\n    }\r\n    public void SS(String ScreenshotReportname,String screenshotFoldername) throws IOException{\r\n        String path = \"C:\\\\Users\\\\LAPTOP WORLD\\\\IdeaProjects\\\\nopCommerce\\\\screenshots\\\\\";\r\n        // Capture screenshot\r\n        byte[] screenshot = page.screenshot(new Page.ScreenshotOptions().setFullPage(true));\r\n\r\n        // Save screenshot to a file\r\n        File screenshotFile = new File(path + screenshotFoldername + \".png\");\r\n        FileUtils.writeByteArrayToFile(screenshotFile, screenshot);\r\n\r\n        // Attach screenshot to Allure report\r\n        Allure.addAttachment(ScreenshotReportname, \"image/png\", FileUtils.openInputStream(screenshotFile), \"png\");\r\n    }\r\n    @AfterTest\r\n    public void tearDown(){\r\n        browserContext.tracing().stop(new Tracing.StopOptions()\r\n                .setPath(Paths.get(\"trace.zip\")));\r\n    }\r\n\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/Base/PlaywrightFactory.java b/src/main/java/Base/PlaywrightFactory.java
+--- a/src/main/java/Base/PlaywrightFactory.java	
++++ b/src/main/java/Base/PlaywrightFactory.java	
+@@ -12,7 +12,7 @@
+ import java.nio.file.Paths;
+ import java.util.Properties;
+ 
+-public class TestBase {
++public class PlaywrightFactory {
+ 
+     public static Page page;
+     public static Browser browser;
+@@ -21,7 +21,7 @@
+ 
+     public static Playwright playwright;
+ 
+-    public TestBase(){
++    public PlaywrightFactory(){
+         try{
+             prop = new Properties();
+             FileInputStream ip = new FileInputStream("C:\\Users\\LAPTOP WORLD\\IdeaProjects\\nopCommerce\\src\\main\\resources\\Config\\config.properties");
+Index: src/test/java/TestPages/PurchaseTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package TestPages;\r\n\r\nimport Base.TestBase;\r\nimport Pages.*;\r\nimport org.testng.annotations.BeforeTest;\r\nimport org.testng.annotations.Test;\r\n\r\npublic class PurchaceTest extends TestBase {\r\n    HomePage homePage;\r\n    RegisterPage registerPage;\r\n    ConfirmRegisterPage confirmRegisterPage;\r\n    LoginPage loginPage;\r\n    ProductsPage productsPage;\r\n    ShoppingCartPage shoppingCartPage;\r\n    CheckoutPage checkoutPage;\r\n\r\n   /* @BeforeTest\r\n    public void setup() throws InterruptedException {\r\n        initialization();\r\n    }*/\r\n    @Test\r\n    public void purchasingScenario(){\r\n        homePage = new HomePage(page);\r\n        homePage.clickonRegister();\r\n        registerPage = new RegisterPage(page);\r\n        registerPage.selectGender().\r\n                enterFName(prop.getProperty(\"firstname\")).\r\n                enterLName(prop.getProperty(\"lastname\")).\r\n                selectDateOfBirth(\r\n                        prop.getProperty(\"day\"),\r\n                        prop.getProperty(\"month\"),\r\n                        prop.getProperty(\"year\")).\r\n                enterEmail(prop.getProperty(\"email\")).\r\n                enterPassword(prop.getProperty(\"password\"),\r\n                        prop.getProperty(\"password\"));\r\n        confirmRegisterPage = registerPage.clickOnRegisterBTN();\r\n        confirmRegisterPage.getConfirmationMessgae();\r\n        homePage = confirmRegisterPage.clickOnConfirmButton();\r\n        homePage.clickonlogin();\r\n        loginPage = new LoginPage(page);\r\n        loginPage.enterLoginEmail(prop.getProperty(\"email\")).\r\n                enterLoginPassword(prop.getProperty(\"password\")).\r\n                clickOnLoginBTN();\r\n        homePage.categoriesHover().\r\n                getDesktops();\r\n        productsPage = new ProductsPage(page);\r\n        productsPage.clickOnLenovoProduct().\r\n                addLenovoProductToCart().\r\n                editQuantity(prop.getProperty(\"quantity\")).\r\n                addLenovoProductToCart();\r\n        homePage.clickOnShoppingCart();\r\n        shoppingCartPage = new ShoppingCartPage(page);\r\n        shoppingCartPage.checkTerms().\r\n                clickOnCheckoutBTN();\r\n        checkoutPage = new CheckoutPage(page);\r\n        checkoutPage.BillingDetails(prop.getProperty(\"country\"),\r\n                (prop.getProperty(\"city\")),\r\n                (prop.getProperty(\"address\")),\r\n                (prop.getProperty(\"zipCode\")),\r\n                (prop.getProperty(\"phone\"))).\r\n                SelectShippingMethod().\r\n                SelectPaymentMethod().\r\n                confirmOrder().\r\n                getConfirmationMSG();\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/src/test/java/TestPages/PurchaseTest.java b/src/test/java/TestPages/PurchaseTest.java
+--- a/src/test/java/TestPages/PurchaseTest.java	
++++ b/src/test/java/TestPages/PurchaseTest.java	
+@@ -1,11 +1,10 @@
+ package TestPages;
+ 
+-import Base.TestBase;
++import Base.PlaywrightFactory;
+ import Pages.*;
+-import org.testng.annotations.BeforeTest;
+ import org.testng.annotations.Test;
+ 
+-public class PurchaceTest extends TestBase {
++public class PurchaseTest extends PlaywrightFactory {
+     HomePage homePage;
+     RegisterPage registerPage;
+     ConfirmRegisterPage confirmRegisterPage;
+@@ -14,10 +13,7 @@
+     ShoppingCartPage shoppingCartPage;
+     CheckoutPage checkoutPage;
+ 
+-   /* @BeforeTest
+-    public void setup() throws InterruptedException {
+-        initialization();
+-    }*/
++
+     @Test
+     public void purchasingScenario(){
+         homePage = new HomePage(page);

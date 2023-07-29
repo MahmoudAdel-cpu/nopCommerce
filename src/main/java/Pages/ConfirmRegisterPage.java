@@ -1,13 +1,12 @@
 package Pages;
 
-import Base.TestBase;
-import com.microsoft.playwright.ElementHandle;
+import Base.PlaywrightFactory;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class ConfirmRegisterPage extends TestBase {
+public class ConfirmRegisterPage extends PlaywrightFactory {
 
     Page page;
     private String confirmMessage = "//div[@class='result']";
