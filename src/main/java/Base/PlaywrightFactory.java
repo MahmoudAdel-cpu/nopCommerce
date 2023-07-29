@@ -42,10 +42,6 @@ public class TestBase {
             page = browserContext.newPage();
             page.navigate(prop.getProperty("url"));
             page.waitForLoadState(LoadState.NETWORKIDLE);
-            browserContext.tracing().start(new Tracing.StartOptions()
-                    .setScreenshots(true)
-                    .setSnapshots(true)
-                    .setSources(true));
 
         } else { playwright = Playwright.create();
             browser = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(false));
@@ -71,8 +67,7 @@ public class TestBase {
     }
     @AfterTest
     public void tearDown(){
-        browserContext.tracing().stop(new Tracing.StopOptions()
-                .setPath(Paths.get("trace.zip")));
+        page.close();
     }
 
 }
