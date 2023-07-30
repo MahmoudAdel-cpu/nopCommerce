@@ -31,16 +31,16 @@ Automation allows us to efficiently validate the functionality of nopCommerce wi
 ### Screenshots
 
 1. **Allure Overview**
-  ![allure](https://github.com/MahmoudAdel-cpu/nopCommerce/assets/132147527/f9c46111-370e-46a7-b167-179c2df26bd8)
+  ![allure](https://github.com/MahmoudAdel-cpu/nopCommerce/blob/main/screenshots/allure.png)
 
 
 
 2. **Detailed steps for every test**
-![steps](https://github.com/MahmoudAdel-cpu/nopCommerce/assets/132147527/cb920ed3-3d9b-4370-bc40-a3291060a35e)
+![steps](https://github.com/MahmoudAdel-cpu/nopCommerce/blob/main/screenshots/steps.png)
 
 
 4. **Trace View**
-![image](https://github.com/MahmoudAdel-cpu/nopCommerce/assets/132147527/135be34b-6b29-4b41-b5dc-d5f8c95379b1)
+![image](https://github.com/MahmoudAdel-cpu/nopCommerce/blob/main/screenshots/Trace.png)
 
 
 ### How to Use
@@ -60,4 +60,5 @@ To use this automation framework with Allure reporting and Trace Viewer, follow 
 6. **View Allure Reports:** After test execution, open the generated Allure report in your web browser to view detailed test results.
 
 7. **Analyze Trace Viewer Data:** Use Trace Viewer to analyze the captured performance data and identify any performance bottlenecks or optimizations.
+8. **Make sure that you changed the path, to your actual path**
 
